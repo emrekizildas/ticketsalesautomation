@@ -19,13 +19,8 @@ namespace BilgeTurizmUI
             InitializeComponent();
         }
 
-        public Context db;
-        public int seferID;
-
         private void AnaForm_Load(object sender, EventArgs e)
         {
-            db = Metotlar.db;
-
 
             //int[] sehirler = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
             //for (int i = 0; i < sehirler.Length; i++)
@@ -41,8 +36,8 @@ namespace BilgeTurizmUI
             //            sefer.VarisSaati = "15:00";
             //            sefer.OtobusTipi = "Suit";
             //            sefer.Ucret = 90;
-            //            db.SeferBilgiTablo.Add(sefer);
-            //            db.SaveChanges();
+            //            Metotlar.db.SeferBilgiTablo.Add(sefer);
+            //            Metotlar.db.SaveChanges();
             //        }
             //    }
             //}
@@ -52,14 +47,14 @@ namespace BilgeTurizmUI
             //{
             //    SeferBilgileri sf = db.SeferBilgiTablo.FirstOrDefault(x => x.ID == i);
             //    sf.Ucret = ucretler[rnd.Next(0, 11)];
-            //    db.SaveChanges();
+            //    Metotlar.db.SaveChanges();
             //}
 
-            cmbNereden.DataSource = db.Sehirler.ToList();
+            cmbNereden.DataSource = Metotlar.db.Sehirler.ToList();
             cmbNereden.DisplayMember = "Sehir";
             cmbNereden.ValueMember = "SehirID";
 
-            cmbNereye.DataSource = db.Sehirler.ToList();
+            cmbNereye.DataSource = Metotlar.db.Sehirler.ToList();
             cmbNereye.DisplayMember = "Sehir";
             cmbNereye.ValueMember = "SehirID";
             cmbNereye.SelectedIndex = 1;

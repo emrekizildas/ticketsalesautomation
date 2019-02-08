@@ -15,7 +15,7 @@ namespace BilgeTurizmUI
     {
 
         public static Context db = new Context();
-
+        
         /// <summary>
         /// Koltuklarınızı istediğiniz otobüs türüne yükleyebilirsiniz.
         /// </summary>
@@ -145,7 +145,7 @@ namespace BilgeTurizmUI
         }
 
         /// <summary>
-        /// 
+        /// Koltuk Seçme metodu içerisinde bu metodu çalıştırarak seçilen koltukları Dictionary'e ekler
         /// </summary>
         /// <param name="form"></param>
         /// <param name="koltuk"></param>
@@ -208,21 +208,40 @@ namespace BilgeTurizmUI
             }
         }
 
+        /// <summary>
+        /// ID değeri girilen şehrin ismini döndürür.
+        /// </summary>
+        /// <param name="sehirID"></param>
+        /// <returns></returns>
         public static string SehirBul(int sehirID)
         {
             return db.Sehirler.FirstOrDefault(x => x.SehirID == sehirID).Sehir;
         }
 
+        /// <summary>
+        /// ID girilen yemeğin ismini string döndürür.
+        /// </summary>
+        /// <param name="yemekID"></param>
+        /// <returns></returns>
         public static string YemekAdi(int yemekID)
         {
             return db.Yemekler.FirstOrDefault(x => x.YemekID == yemekID).MenuAdi;
         }
 
+        /// <summary>
+        /// Girilen sefer ID nin ücretini decimal döndürür.
+        /// </summary>
+        /// <param name="seferID"></param>
+        /// <returns></returns>
         public static decimal FiyatBul(int seferID)
         {
             return db.SeferBilgiTablo.FirstOrDefault(x => x.ID == seferID).Ucret;
         }
 
+        /// <summary>
+        /// 6 haneli alfanumerik rastgele kod üretir.
+        /// </summary>
+        /// <returns></returns>
         public static string PNRKoduUret()
         {
             Random random = new Random();
@@ -231,6 +250,12 @@ namespace BilgeTurizmUI
               .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
+        /// <summary>
+        /// İlgili seferin ilgili tarihinde boş koltuk olup olmadığını gösterir.
+        /// </summary>
+        /// <param name="seferID"></param>
+        /// <param name="tarih"></param>
+        /// <returns></returns>
         public static bool YerVarMi(int seferID, DateTime tarih)
         {
             int koltukSayisi = db.BiletTablo.Where(x => x.SeferBilgileriID == seferID && x.KalkisTarihi == tarih).ToList().Count;

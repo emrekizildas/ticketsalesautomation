@@ -15,7 +15,6 @@ namespace BilgeTurizmUI
 {
     public partial class OdemeEkrani : Form
     {
-        Context db;
         string pnrKodu;
         bool rezerveMi;
 
@@ -49,7 +48,6 @@ namespace BilgeTurizmUI
 
         private void btnOdemeYap_Click(object sender, EventArgs e)
         {
-            db = Metotlar.db;
 
             if (!Metotlar.BosAlanVarMi(grpKartBilgileri))
             {
@@ -59,7 +57,7 @@ namespace BilgeTurizmUI
                     foreach (Bilet bilet in biletler)
                     {
                         bilet.RezerveMi = false;
-                        db.SaveChanges();
+                        Metotlar.db.SaveChanges();
                     }
                     OzetEkrani ob = new OzetEkrani(pnrKodu);
                     ob.Show();
@@ -71,7 +69,7 @@ namespace BilgeTurizmUI
                
                 GidenYolculariKaydet();
 
-                if (Bilgiler.seyahatTipi == SeyehatTipi.GidisDonus)
+                if (Bilgiler.SeyahatTipi == SeyehatTipi.GidisDonus)
                 {
                     DonusYolculariKaydet();
                 }
@@ -90,7 +88,7 @@ namespace BilgeTurizmUI
         private void DonusYolculariKaydet()
         {
             
-            foreach (Yolcu item in Bilgiler.donusMusteriler)
+            foreach (Yolcu item in Bilgiler.DonusMusteriler)
             {
                 Musteriler musteri = new Musteriler();
                 musteri.Ad = item.Ad;
@@ -99,30 +97,30 @@ namespace BilgeTurizmUI
                 musteri.EMail = item.EMail;
                 musteri.Telefon = item.Telefon;
                 musteri.Cinsiyet = item.Cinsiyet;
-                db.MusterilerTablo.Add(musteri);
-                db.SaveChanges();
+                Metotlar.db.MusterilerTablo.Add(musteri);
+                Metotlar.db.SaveChanges();
 
                 Bilet bilet = new Bilet();
                 bilet.YemekID = item.yemekID;
-                bilet.RezerveMi = Bilgiler.rezerveMi;
+                bilet.RezerveMi = Bilgiler.RezerveMi;
                 bilet.KoltukNo = (short)item.koltukNo;
-                bilet.KalkisTarihi = Bilgiler.donusTarihi;
-                bilet.VarisTarihi = Bilgiler.donusTarihi;
-                bilet.SeferBilgileriID = Bilgiler.donusSeferID;
+                bilet.KalkisTarihi = Bilgiler.DonusTarihi;
+                bilet.VarisTarihi = Bilgiler.DonusTarihi;
+                bilet.SeferBilgileriID = Bilgiler.DonusSeferID;
                 bilet.MusteriID = musteri.MusteriID;
                 bilet.YetiskinMi = item.YetiskinMi;
                 bilet.SigortaliMi = Bilgiler.SigortaVarMi;
                 bilet.ToplamFiyat = Bilgiler.ToplamFiyat;
                 bilet.PnrKodu = pnrKodu;
-                db.BiletTablo.Add(bilet);
-                db.SaveChanges();
+                Metotlar.db.BiletTablo.Add(bilet);
+                Metotlar.db.SaveChanges();
             }
         }
 
         private void GidenYolculariKaydet()
         {
             
-            foreach (Yolcu item in Bilgiler.gidisMusteriler)
+            foreach (Yolcu item in Bilgiler.GidisMusteriler)
             {
                 Musteriler musteri = new Musteriler();
                 musteri.Ad = item.Ad;
@@ -131,30 +129,30 @@ namespace BilgeTurizmUI
                 musteri.TcNo = item.TcNo;
                 musteri.Telefon = item.Telefon;
                 musteri.Cinsiyet = item.Cinsiyet;
-                db.MusterilerTablo.Add(musteri);
-                db.SaveChanges();
+                Metotlar.db.MusterilerTablo.Add(musteri);
+                Metotlar.db.SaveChanges();
 
 
                 Bilet bilet = new Bilet();
                 bilet.YemekID = item.yemekID;
-                bilet.RezerveMi = Bilgiler.rezerveMi;
+                bilet.RezerveMi = Bilgiler.RezerveMi;
                 bilet.KoltukNo = (short)item.koltukNo;
-                bilet.KalkisTarihi = Bilgiler.gidisTarihi;
-                bilet.VarisTarihi = Bilgiler.gidisTarihi;
-                bilet.SeferBilgileriID = Bilgiler.gidisSeferID;
+                bilet.KalkisTarihi = Bilgiler.GidisTarihi;
+                bilet.VarisTarihi = Bilgiler.GidisTarihi;
+                bilet.SeferBilgileriID = Bilgiler.GidisSeferID;
                 bilet.MusteriID = musteri.MusteriID;
                 bilet.YetiskinMi = item.YetiskinMi;
                 bilet.SigortaliMi = Bilgiler.SigortaVarMi;
                 bilet.ToplamFiyat = Bilgiler.ToplamFiyat;
                 bilet.PnrKodu = pnrKodu;
-                db.BiletTablo.Add(bilet);
-                db.SaveChanges();
+                Metotlar.db.BiletTablo.Add(bilet);
+                Metotlar.db.SaveChanges();
             }
         }
 
         private void ToplamFiyatHesapla()
         {
-            foreach (Yolcu yolcu in Bilgiler.gidisMusteriler)
+            foreach (Yolcu yolcu in Bilgiler.GidisMusteriler)
             {
                 if (Bilgiler.SigortaVarMi)
                 {
@@ -163,23 +161,23 @@ namespace BilgeTurizmUI
 
                 if (yolcu.YetiskinMi)
                 {
-                    Bilgiler.ToplamFiyat += Metotlar.FiyatBul(Bilgiler.gidisSeferID);
+                    Bilgiler.ToplamFiyat += Metotlar.FiyatBul(Bilgiler.GidisSeferID);
                 }
                 else
                 {
-                    Bilgiler.ToplamFiyat += Metotlar.FiyatBul(Bilgiler.gidisSeferID) * 0.8m;
+                    Bilgiler.ToplamFiyat += Metotlar.FiyatBul(Bilgiler.GidisSeferID) * 0.8m;
                 }
 
-                if (Bilgiler.gidisOtobusTipi == OtobusTipi.Suit && yolcu.koltukNo <= 8)
+                if (Bilgiler.GidisOtobusTipi == OtobusTipi.Suit && yolcu.koltukNo <= 8)
                 {
                     Bilgiler.ToplamFiyat += 20;
                 }
 
             }
 
-            if (Bilgiler.seyahatTipi == SeyehatTipi.GidisDonus)
+            if (Bilgiler.SeyahatTipi == SeyehatTipi.GidisDonus)
             {
-                foreach (Yolcu yolcu in Bilgiler.donusMusteriler)
+                foreach (Yolcu yolcu in Bilgiler.DonusMusteriler)
                 {
 
                     //Sigorta Kontrolü
@@ -192,16 +190,16 @@ namespace BilgeTurizmUI
                     //Çocuk kontrolü
                     if (yolcu.YetiskinMi)
                     {
-                        Bilgiler.ToplamFiyat += Metotlar.FiyatBul(Bilgiler.donusSeferID);
+                        Bilgiler.ToplamFiyat += Metotlar.FiyatBul(Bilgiler.DonusSeferID);
                     }
                     else
                     {
-                        Bilgiler.ToplamFiyat += Metotlar.FiyatBul(Bilgiler.donusSeferID) * 0.8m;
+                        Bilgiler.ToplamFiyat += Metotlar.FiyatBul(Bilgiler.DonusSeferID) * 0.8m;
                     }
 
 
                     //VIP Koltuk kontrolü
-                    if (Bilgiler.donusOtobusTipi == OtobusTipi.Suit && yolcu.koltukNo <= 8)
+                    if (Bilgiler.DonusOtobusTipi == OtobusTipi.Suit && yolcu.koltukNo <= 8)
                     {
                         Bilgiler.ToplamFiyat += 20;
                     }

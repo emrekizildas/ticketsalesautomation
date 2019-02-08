@@ -29,18 +29,19 @@ namespace BilgeTurizmUI
 
             GidenYolcuBilgileriFormunuOlustur();
 
-            if (Bilgiler.seyahatTipi == SeyehatTipi.GidisDonus)
+            if (Bilgiler.SeyahatTipi == SeyehatTipi.GidisDonus)
             {
                 DonenYolcuBilgileriFormunuOlustur();
             }
             else
             {
+                //Seyahat tipi gidiş ise Dönüş alanındaki controller gizlenir.
                 grpDonusLabels.Hide();
                 lblDonus.Hide();
                 donusBilgiPaneli.Hide();
                 btnDevamEt.Location = new Point(btnDevamEt.Location.X, gidisBilgiPaneli.Bottom + 15);
                 chkSigorta.Location = new Point(chkSigorta.Location.X, gidisBilgiPaneli.Bottom + 15);
-                lblSigorta.Location = new Point(chkSigorta.Location.X, gidisBilgiPaneli.Bottom + 15);
+                lblSigorta.Location = new Point(lblSigorta.Location.X, gidisBilgiPaneli.Bottom + 15);
                 this.Height = gidisBilgiPaneli.Height + 200;
             }
 
@@ -48,7 +49,7 @@ namespace BilgeTurizmUI
 
         private void DonenYolcuBilgileriFormunuOlustur()
         {
-            foreach (KeyValuePair<int, string> koltuk in Bilgiler.donusSecilenKoltuklar)
+            foreach (KeyValuePair<int, string> koltuk in Bilgiler.DonusSecilenKoltuklar)
             {
                 //Koltuk Numarası Label
                 Label koltukNo = new Label();
@@ -125,7 +126,7 @@ namespace BilgeTurizmUI
 
         private void GidenYolcuBilgileriFormunuOlustur()
         {
-            foreach (KeyValuePair<int, string> koltuk in Bilgiler.gidisSecilenKoltuklar)
+            foreach (KeyValuePair<int, string> koltuk in Bilgiler.GidisSecilenKoltuklar)
             {
                 //Koltuk Numarası Label
                 Label koltukNo = new Label();
@@ -218,18 +219,19 @@ namespace BilgeTurizmUI
 
                 gidenYolcular = new List<Yolcu>();
                 GidenYolculariKaydet();
-                Bilgiler.gidisMusteriler = gidenYolcular;
+                Bilgiler.GidisMusteriler = gidenYolcular;
 
 
-                if (Bilgiler.rezerveMi == false)
+                if (Bilgiler.RezerveMi == false)
                 {
-                    if (Bilgiler.seyahatTipi == SeyehatTipi.GidisDonus)
+                    //Satın alma seçilmişse bu alana çalışacak
+                    if (Bilgiler.SeyahatTipi == SeyehatTipi.GidisDonus)
                     {
                         if ((!Metotlar.BosAlanVarMi(donusBilgiPaneli)))
                         {
                             donusYolcular = new List<Yolcu>();
                             DonusYolculariniKaydet();
-                            Bilgiler.donusMusteriler = donusYolcular;
+                            Bilgiler.DonusMusteriler = donusYolcular;
                         }
                         else
                         {
@@ -245,27 +247,19 @@ namespace BilgeTurizmUI
                 else
                 {
 
-                    if (Bilgiler.seyahatTipi == SeyehatTipi.GidisDonus)
+                    //Rezerve ise burası çalışacak
+
+                    GidisFiyatiHesapla();
+                    if (Bilgiler.SeyahatTipi == SeyehatTipi.GidisDonus)
                     {
                         if ((!Metotlar.BosAlanVarMi(donusBilgiPaneli)))
                         {
+                            //Gidiş - Dönüş seyehat tipi seçilmişse donüş kısmındaki yolcuları kaydedip statik olarak donusMusteriler propertysine ekleriz.
                             donusYolcular = new List<Yolcu>();
                             DonusYolculariniKaydet();
-                            Bilgiler.donusMusteriler = donusYolcular;
-                        }
-                        else
-                        {
-                            MessageBox.Show("Lütfen Boş Alan Bırakmayınız ve Geçerli Değerler Giriniz...");
-                            return;
-                        }
-                    }
-
-                    //Rezerve ise burası çalışacak
-                    GidisKaydet();
-                    if (Bilgiler.seyahatTipi == SeyehatTipi.GidisDonus)
-                    {
-                        if (!Metotlar.BosAlanVarMi(donusBilgiPaneli))
-                        {
+                            Bilgiler.DonusMusteriler = donusYolcular;
+                            DonusFiyatiHesapla();
+                            Bilgiler.ToplamFiyat = Bilgiler.GidisToplamFiyat + Bilgiler.DonusToplamFiyat;
                             DonusKaydet();
                         }
                         else
@@ -274,14 +268,18 @@ namespace BilgeTurizmUI
                             return;
                         }
                     }
+                    else
+                    {
+                        Bilgiler.ToplamFiyat = Bilgiler.GidisToplamFiyat;
+                    }
 
+                    //219. Satırda giden yolcuları kaydettiğinden GidisKaydet() metodunda bu seçilen yolcuları doğrudan veritabanına kaydederiz.
+                    GidisKaydet();
 
                     OzetEkrani oe = new OzetEkrani();
                     oe.Show();
                     Hide();
                 }
-
-                
 
             }
             else
@@ -290,11 +288,12 @@ namespace BilgeTurizmUI
                 return;
             }
 
-        }    
+        }
 
+        //Donus yolcularını listeye ekleyen metotdur.
         private void DonusYolculariniKaydet()
         {
-            foreach (KeyValuePair<int, string> koltuk in Bilgiler.donusSecilenKoltuklar)
+            foreach (KeyValuePair<int, string> koltuk in Bilgiler.DonusSecilenKoltuklar)
             {
                 Yolcu yolcu = new Yolcu();
                 string adName = "donusAd-" + koltuk.Key;
@@ -345,9 +344,10 @@ namespace BilgeTurizmUI
             }
         }
 
+        //Giden yolcuları listeye kaydeden metotdur.
         private void GidenYolculariKaydet()
         {
-            foreach (KeyValuePair<int, string> koltuk in Bilgiler.gidisSecilenKoltuklar)
+            foreach (KeyValuePair<int, string> koltuk in Bilgiler.GidisSecilenKoltuklar)
             {
                 Yolcu yolcu = new Yolcu();
                 string adName = "gidisAd-" + koltuk.Key;
@@ -399,12 +399,12 @@ namespace BilgeTurizmUI
             }
         }
 
+        //Rezerve işlemi yapılan yolcuların dönüş bilgilerini kaydeder.
         private void DonusKaydet()
         {
-
-            foreach (Yolcu item in Bilgiler.donusMusteriler)
+            //Statik oluşturulan dönüşMüşteriler property içerisindeki Yolcu nesnelerini veritabanına kaydeder.
+            foreach (Yolcu item in Bilgiler.DonusMusteriler)
             {
-
 
                 Musteriler musteri = new Musteriler();
                 musteri.Ad = item.Ad;
@@ -418,11 +418,11 @@ namespace BilgeTurizmUI
 
                 Bilet bilet = new Bilet();
                 bilet.YemekID = item.yemekID;
-                bilet.RezerveMi = Bilgiler.rezerveMi;
+                bilet.RezerveMi = Bilgiler.RezerveMi;
                 bilet.KoltukNo = (short)item.koltukNo;
-                bilet.KalkisTarihi = Bilgiler.donusTarihi;
-                bilet.VarisTarihi = Bilgiler.donusTarihi;
-                bilet.SeferBilgileriID = Bilgiler.donusSeferID;
+                bilet.KalkisTarihi = Bilgiler.DonusTarihi;
+                bilet.VarisTarihi = Bilgiler.DonusTarihi;
+                bilet.SeferBilgileriID = Bilgiler.DonusSeferID;
                 bilet.MusteriID = musteri.MusteriID;
                 bilet.YetiskinMi = item.YetiskinMi;
                 bilet.SigortaliMi = Bilgiler.SigortaVarMi;
@@ -435,62 +435,11 @@ namespace BilgeTurizmUI
             }
         }
 
+        //Rezerve işlemi yapılan yolcuların gidiş bilgilerini kaydeder.
         private void GidisKaydet()
         {
-
-            foreach (Yolcu item in Bilgiler.gidisMusteriler)
-            {
-                if (Bilgiler.SigortaVarMi)
-                {
-                    Bilgiler.ToplamFiyat += 20;
-                }
-
-                if (item.YetiskinMi)
-                {
-                    Bilgiler.ToplamFiyat += Metotlar.FiyatBul(Bilgiler.gidisSeferID);
-                }
-                else
-                {
-                    Bilgiler.ToplamFiyat += Metotlar.FiyatBul(Bilgiler.gidisSeferID) * 0.8m;
-                }
-
-                if (Bilgiler.gidisOtobusTipi == OtobusTipi.Suit && item.koltukNo <= 8)
-                {
-                    Bilgiler.ToplamFiyat += 20;
-                }
-            }
-
-            if(Bilgiler.seyahatTipi == SeyehatTipi.GidisDonus)
-            {
-                if(Bilgiler.donusMusteriler.Count != 0)
-                {
-                    foreach (Yolcu item in Bilgiler.donusMusteriler)
-                    {
-                        if (Bilgiler.SigortaVarMi)
-                        {
-                            Bilgiler.ToplamFiyat += 20;
-                        }
-
-                        if (item.YetiskinMi)
-                        {
-                            Bilgiler.ToplamFiyat += Metotlar.FiyatBul(Bilgiler.donusSeferID);
-                        }
-                        else
-                        {
-                            Bilgiler.ToplamFiyat += Metotlar.FiyatBul(Bilgiler.donusSeferID) * 0.8m;
-                        }
-
-                        if (Bilgiler.donusOtobusTipi == OtobusTipi.Suit && item.koltukNo <= 8)
-                        {
-                            Bilgiler.ToplamFiyat += 20;
-                        }
-                    }
-                }
-            }
-            
-
-
-            foreach (Yolcu item in Bilgiler.gidisMusteriler)
+            //Statik olarak eklenen gidisMusteriler property içerisinde yer alan Yolcu nesnelerini veri tabanına kaydederiz.
+            foreach (Yolcu item in Bilgiler.GidisMusteriler)
             {
 
                 Musteriler musteri = new Musteriler();
@@ -506,11 +455,11 @@ namespace BilgeTurizmUI
 
                 Bilet bilet = new Bilet();
                 bilet.YemekID = item.yemekID;
-                bilet.RezerveMi = Bilgiler.rezerveMi;
+                bilet.RezerveMi = Bilgiler.RezerveMi;
                 bilet.KoltukNo = (short)item.koltukNo;
-                bilet.KalkisTarihi = Bilgiler.gidisTarihi;
-                bilet.VarisTarihi = Bilgiler.gidisTarihi;
-                bilet.SeferBilgileriID = Bilgiler.gidisSeferID;
+                bilet.KalkisTarihi = Bilgiler.GidisTarihi;
+                bilet.VarisTarihi = Bilgiler.GidisTarihi;
+                bilet.SeferBilgileriID = Bilgiler.GidisSeferID;
                 bilet.MusteriID = musteri.MusteriID;
                 bilet.YetiskinMi = item.YetiskinMi;
                 bilet.SigortaliMi = Bilgiler.SigortaVarMi;
@@ -519,6 +468,64 @@ namespace BilgeTurizmUI
                 Metotlar.db.BiletTablo.Add(bilet);
                 Metotlar.db.SaveChanges();
 
+            }
+        }
+
+        private static void GidisFiyatiHesapla()
+        {
+            // Gidiş yönündeki yolcuların fiyatları bu alanda hesaplanır.
+            foreach (Yolcu item in Bilgiler.GidisMusteriler)
+            {
+                if (Bilgiler.SigortaVarMi)
+                {
+                    Bilgiler.GidisToplamFiyat += 20;
+                }
+
+                if (item.YetiskinMi)
+                {
+                    Bilgiler.GidisToplamFiyat += Metotlar.FiyatBul(Bilgiler.GidisSeferID);
+                }
+                else
+                {
+                    Bilgiler.GidisToplamFiyat += Metotlar.FiyatBul(Bilgiler.GidisSeferID) * 0.8m;
+                }
+
+                if (Bilgiler.GidisOtobusTipi == OtobusTipi.Suit && item.koltukNo <= 8)
+                {
+                    Bilgiler.GidisToplamFiyat += 20;
+                }
+            }
+        }
+
+        private static void DonusFiyatiHesapla()
+        {
+            //Eğer Gidiş - Dönüş seyahat tipi seçilmişse dönüş yolcularının fiyatı toplam fiyata eklenir.
+            if (Bilgiler.SeyahatTipi == SeyehatTipi.GidisDonus)
+            {
+                if (Bilgiler.DonusMusteriler.Count != 0)
+                {
+                    foreach (Yolcu item in Bilgiler.DonusMusteriler)
+                    {
+                        if (Bilgiler.SigortaVarMi)
+                        {
+                            Bilgiler.DonusToplamFiyat += 20;
+                        }
+
+                        if (item.YetiskinMi)
+                        {
+                            Bilgiler.DonusToplamFiyat += Metotlar.FiyatBul(Bilgiler.DonusSeferID);
+                        }
+                        else
+                        {
+                            Bilgiler.DonusToplamFiyat += Metotlar.FiyatBul(Bilgiler.DonusSeferID) * 0.8m;
+                        }
+
+                        if (Bilgiler.DonusOtobusTipi == OtobusTipi.Suit && item.koltukNo <= 8)
+                        {
+                            Bilgiler.DonusToplamFiyat += 20;
+                        }
+                    }
+                }
             }
         }
 

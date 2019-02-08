@@ -24,7 +24,7 @@ namespace BilgeTurizmUI
 
         private void AnaForm_Load(object sender, EventArgs e)
         {
-            db = new Context();
+            db = Metotlar.db;
 
 
             //int[] sehirler = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
@@ -95,12 +95,12 @@ namespace BilgeTurizmUI
         {
 
             //Static Verileri kaydettik
-            Bilgiler.gidisTarihi = dtpGidisTarihi.Value.Date;
-            Bilgiler.donusTarihi = dtpDonusTarihi.Value.Date;
-            Bilgiler.neredenSehir = (int)cmbNereden.SelectedValue;
-            Bilgiler.nereyeSehir = (int)cmbNereye.SelectedValue;
-            Bilgiler.rezerveMi = rdbRezervasyon.Checked;
-            Bilgiler.seyahatTipi = rdbGidisDonus.Checked ? SeyehatTipi.GidisDonus : SeyehatTipi.TekYon;
+            Bilgiler.GidisTarihi = dtpGidisTarihi.Value.Date;
+            Bilgiler.DonusTarihi = dtpDonusTarihi.Value.Date;
+            Bilgiler.NeredenSehir = (int)cmbNereden.SelectedValue;
+            Bilgiler.NereyeSehir = (int)cmbNereye.SelectedValue;
+            Bilgiler.RezerveMi = rdbRezervasyon.Checked;
+            Bilgiler.SeyahatTipi = rdbGidisDonus.Checked ? SeyehatTipi.GidisDonus : SeyehatTipi.TekYon;
 
             if ((int)cmbNereden.SelectedValue == (int)cmbNereye.SelectedValue)
             {

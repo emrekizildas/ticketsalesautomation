@@ -28,21 +28,21 @@ namespace BilgeTurizmUI
 
 
             //Kampanya var mı kontrolü
-            decimal standartGidis = Metotlar.db.SeferBilgiTablo.FirstOrDefault(x => x.Nereden == Bilgiler.neredenSehir && x.Nereye == Bilgiler.nereyeSehir && x.OtobusTipi == "Standart").Ucret;
-            decimal suitGidis = Metotlar.db.SeferBilgiTablo.FirstOrDefault(x => x.Nereden == Bilgiler.neredenSehir && x.Nereye == Bilgiler.nereyeSehir && x.OtobusTipi == "Suit").Ucret;
+            decimal standartGidisFiyat = Metotlar.db.SeferBilgiTablo.FirstOrDefault(x => x.Nereden == Bilgiler.NeredenSehir && x.Nereye == Bilgiler.NereyeSehir && x.OtobusTipi == "Standart").Ucret;
+            decimal suitGidisFiyat = Metotlar.db.SeferBilgiTablo.FirstOrDefault(x => x.Nereden == Bilgiler.NeredenSehir && x.Nereye == Bilgiler.NereyeSehir && x.OtobusTipi == "Suit").Ucret;
 
-            decimal standartDonus = Metotlar.db.SeferBilgiTablo.FirstOrDefault(x => x.Nereden == Bilgiler.nereyeSehir && x.Nereye == Bilgiler.neredenSehir && x.OtobusTipi == "Standart").Ucret;
+            decimal standartDonusFiyat = Metotlar.db.SeferBilgiTablo.FirstOrDefault(x => x.Nereden == Bilgiler.NereyeSehir && x.Nereye == Bilgiler.NeredenSehir && x.OtobusTipi == "Standart").Ucret;
 
-            decimal suitDonus = Metotlar.db.SeferBilgiTablo.FirstOrDefault(x => x.Nereden == Bilgiler.nereyeSehir && x.Nereye == Bilgiler.neredenSehir && x.OtobusTipi == "Suit").Ucret;
+            decimal suitDonusFiyati = Metotlar.db.SeferBilgiTablo.FirstOrDefault(x => x.Nereden == Bilgiler.NereyeSehir && x.Nereye == Bilgiler.NeredenSehir && x.OtobusTipi == "Suit").Ucret;
 
-            lblStandartGidis.Text = string.Format("{0:c}", standartGidis);
-            lblSuitGidis.Text = string.Format("{0:c}", suitGidis);
+            lblStandartGidis.Text = string.Format("{0:c}", standartGidisFiyat);
+            lblSuitGidis.Text = string.Format("{0:c}", suitGidisFiyat);
 
-            lblStandartDonus.Text = string.Format("{0:c}", standartDonus);
-            lblSuitDonus.Text = string.Format("{0:c}", suitDonus);
+            lblStandartDonus.Text = string.Format("{0:c}", standartDonusFiyat);
+            lblSuitDonus.Text = string.Format("{0:c}", suitDonusFiyati);
 
-            if(standartGidis >= suitGidis) { lblKampanya.Show();  }
-            if(standartDonus >= suitDonus) { lblKampanyaDonus.Show();  }
+            if(standartGidisFiyat >= suitGidisFiyat) { lblKampanya.Show();  }
+            if(standartDonusFiyat >= suitDonusFiyati) { lblKampanyaDonus.Show();  }
         }
 
         private void btnAnaSayfa_Click(object sender, EventArgs e)
@@ -53,23 +53,23 @@ namespace BilgeTurizmUI
 
         private void btnSeferSec_Click(object sender, EventArgs e)
         {
-            Bilgiler.gidisSeferID = Metotlar.SeferIDBul(Bilgiler.neredenSehir, Bilgiler.nereyeSehir, (rdbGidisSeferStandart.Checked ? "Standart" : "Suit"));
-            Bilgiler.donusSeferID = Metotlar.SeferIDBul(Bilgiler.nereyeSehir, Bilgiler.neredenSehir, (rdbDonusSeferStandart.Checked ? "Standart" : "Suit"));
-            if (!Metotlar.YerVarMi(Bilgiler.gidisSeferID, Bilgiler.gidisTarihi))
+            Bilgiler.GidisSeferID = Metotlar.SeferIDBul(Bilgiler.NeredenSehir, Bilgiler.NereyeSehir, (rdbGidisSeferStandart.Checked ? "Standart" : "Suit"));
+            Bilgiler.DonusSeferID = Metotlar.SeferIDBul(Bilgiler.NereyeSehir, Bilgiler.NeredenSehir, (rdbDonusSeferStandart.Checked ? "Standart" : "Suit"));
+            if (!Metotlar.YerVarMi(Bilgiler.GidisSeferID, Bilgiler.GidisTarihi))
             {
                 MessageBox.Show("Gidiş seferimizde boş koltuk bulunmamaktadır.");
                 return;
             }
-            else if (!Metotlar.YerVarMi(Bilgiler.donusSeferID, Bilgiler.donusTarihi))
+            else if (!Metotlar.YerVarMi(Bilgiler.DonusSeferID, Bilgiler.DonusTarihi))
             {
                 MessageBox.Show("Donüş seferimizde boş koltuk bulunmamaktadır.");
                 return;
             }
 
-            Bilgiler.gidisOtobusTipi = rdbGidisSeferStandart.Checked ? OtobusTipi.Standart : OtobusTipi.Suit;
-            Bilgiler.donusOtobusTipi = rdbDonusSeferStandart.Checked ? OtobusTipi.Standart : OtobusTipi.Suit;
-            Bilgiler.gidisSaati = rdbGidisSeferStandart.Checked ? "11:00" : "13:00";
-            Bilgiler.donusSaati = rdbDonusSeferStandart.Checked ? "11:00" : "13:00";
+            Bilgiler.GidisOtobusTipi = rdbGidisSeferStandart.Checked ? OtobusTipi.Standart : OtobusTipi.Suit;
+            Bilgiler.DonusOtobusTipi = rdbDonusSeferStandart.Checked ? OtobusTipi.Standart : OtobusTipi.Suit;
+            Bilgiler.GidisSaati = rdbGidisSeferStandart.Checked ? "11:00" : "13:00";
+            Bilgiler.DonusSaati = rdbDonusSeferStandart.Checked ? "11:00" : "13:00";
 
             //Eğer dönüş seferi standart ise TRUE değeri gönderilir.
             //Eğer dönüş seferi suit ise FALSE değeri gönderilir.

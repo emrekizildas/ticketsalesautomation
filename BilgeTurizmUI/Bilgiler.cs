@@ -11,43 +11,47 @@ namespace BilgeTurizmUI
     {
         // Burada yolcuların ve program içerisindeki sabit değerler tutulacak
 
-        public static DateTime gidisTarihi { get; set; }
+        public static DateTime GidisTarihi { get; set; }
 
-        public static DateTime donusTarihi { get; set; }
+        public static DateTime DonusTarihi { get; set; }
 
-        public static string gidisSaati { get; set; }
+        public static string GidisSaati { get; set; }
 
-        public static string donusSaati { get; set; }
+        public static string DonusSaati { get; set; }
 
-        public static int neredenSehir { get; set; }
+        public static int NeredenSehir { get; set; }
 
-        public static int nereyeSehir { get; set; }
+        public static int NereyeSehir { get; set; }
 
-        public static OtobusTipi gidisOtobusTipi { get; set; }
+        public static OtobusTipi GidisOtobusTipi { get; set; }
 
-        public static OtobusTipi donusOtobusTipi { get; set; }
+        public static OtobusTipi DonusOtobusTipi { get; set; }
 
-        public static Dictionary<int, string> gidisSecilenKoltuklar { get; set; }
+        public static Dictionary<int, string> GidisSecilenKoltuklar { get; set; }
 
-        public static Dictionary<int, string>  donusSecilenKoltuklar { get; set; }
+        public static Dictionary<int, string>  DonusSecilenKoltuklar { get; set; }
 
-        public static int gidisSeferID { get; set; }
+        public static int GidisSeferID { get; set; }
 
-        public static int  donusSeferID { get; set; }
+        public static int  DonusSeferID { get; set; }
 
-        public static List<Yolcu> gidisMusteriler;
+        public static List<Yolcu> GidisMusteriler;
 
-        public static List<Yolcu> donusMusteriler;
+        public static List<Yolcu> DonusMusteriler;
 
-        public static bool rezerveMi { get; set; }
+        public static bool RezerveMi { get; set; }
 
-        public static SeyehatTipi seyahatTipi { get; set; }
+        public static SeyehatTipi SeyahatTipi { get; set; }
 
         public static decimal ToplamFiyat { get; set; }
 
         public static bool SigortaVarMi { get; set; }
 
         public static string PNRKodu { get; set; }
+
+        public static decimal GidisToplamFiyat { get; set; }
+
+        public static decimal DonusToplamFiyat { get; set; }
 
     }
 

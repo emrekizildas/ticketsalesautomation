@@ -83,7 +83,7 @@ namespace BilgeTurizmUI
 
             GidisMusterileriYazdir();
 
-            if (Bilgiler.seyahatTipi == SeyehatTipi.GidisDonus)
+            if (Bilgiler.SeyahatTipi == SeyehatTipi.GidisDonus)
             {
                 DonusMusterileriYazdir();
             }
@@ -95,7 +95,7 @@ namespace BilgeTurizmUI
 
         private void DonusMusterileriYazdir()
         {
-            foreach (Yolcu yolcu in Bilgiler.donusMusteriler)
+            foreach (Yolcu yolcu in Bilgiler.DonusMusteriler)
             {
                 Label adSoyad = new Label();
                 adSoyad.Width = 74;
@@ -107,19 +107,19 @@ namespace BilgeTurizmUI
 
                 Label nereden = new Label();
                 nereden.Width = 74;
-                nereden.Text = Metotlar.SehirBul(Bilgiler.nereyeSehir);
+                nereden.Text = Metotlar.SehirBul(Bilgiler.NereyeSehir);
 
                 Label nereye = new Label();
                 nereye.Width = 74;
-                nereye.Text = Metotlar.SehirBul(Bilgiler.neredenSehir);
+                nereye.Text = Metotlar.SehirBul(Bilgiler.NeredenSehir);
 
                 Label seferTarihi = new Label();
                 seferTarihi.Width = 74;
-                seferTarihi.Text = Bilgiler.donusTarihi.ToShortDateString();
+                seferTarihi.Text = Bilgiler.DonusTarihi.ToShortDateString();
 
                 Label seferSaati = new Label();
                 seferSaati.Width = 74;
-                seferSaati.Text = Bilgiler.donusSaati;
+                seferSaati.Text = Bilgiler.DonusSaati;
 
                 Label koltukNo = new Label();
                 koltukNo.Width = 74;
@@ -127,11 +127,11 @@ namespace BilgeTurizmUI
 
                 Label biletSinifi = new Label();
                 biletSinifi.Width = 74;
-                biletSinifi.Text = (Bilgiler.donusOtobusTipi == OtobusTipi.Suit && yolcu.koltukNo <= 8) ? "VIP" : "Standart";
+                biletSinifi.Text = (Bilgiler.DonusOtobusTipi == OtobusTipi.Suit && yolcu.koltukNo <= 8) ? "VIP" : "Standart";
 
                 Label otobusTipi = new Label();
                 otobusTipi.Width = 74;
-                otobusTipi.Text = Bilgiler.donusOtobusTipi == OtobusTipi.Standart ? "Standart" : "Suit";
+                otobusTipi.Text = Bilgiler.DonusOtobusTipi == OtobusTipi.Standart ? "Standart" : "Suit";
 
                 Label yemek = new Label();
                 yemek.Width = 74;
@@ -143,7 +143,7 @@ namespace BilgeTurizmUI
 
         private void GidisMusterileriYazdir()
         {
-            foreach (Yolcu yolcu in Bilgiler.gidisMusteriler)
+            foreach (Yolcu yolcu in Bilgiler.GidisMusteriler)
             {
                 Label adSoyad = new Label();
                 adSoyad.Width = 74;
@@ -155,19 +155,19 @@ namespace BilgeTurizmUI
 
                 Label nereden = new Label();
                 nereden.Width = 74;
-                nereden.Text = Metotlar.SehirBul(Bilgiler.neredenSehir);
+                nereden.Text = Metotlar.SehirBul(Bilgiler.NeredenSehir);
 
                 Label nereye = new Label();
                 nereye.Width = 74;
-                nereye.Text = Metotlar.SehirBul(Bilgiler.nereyeSehir);
+                nereye.Text = Metotlar.SehirBul(Bilgiler.NereyeSehir);
 
                 Label seferTarihi = new Label();
                 seferTarihi.Width = 74;
-                seferTarihi.Text = Bilgiler.gidisTarihi.ToShortDateString();
+                seferTarihi.Text = Bilgiler.GidisTarihi.ToShortDateString();
 
                 Label seferSaati = new Label();
                 seferSaati.Width = 74;
-                seferSaati.Text = Bilgiler.gidisSaati;
+                seferSaati.Text = Bilgiler.GidisSaati;
 
                 Label koltukNo = new Label();
                 koltukNo.Width = 74;
@@ -175,11 +175,11 @@ namespace BilgeTurizmUI
 
                 Label biletSinifi = new Label();
                 biletSinifi.Width = 74;
-                biletSinifi.Text = (Bilgiler.gidisOtobusTipi == OtobusTipi.Suit && yolcu.koltukNo <= 8) ? "VIP" : "Standart";
+                biletSinifi.Text = (Bilgiler.GidisOtobusTipi == OtobusTipi.Suit && yolcu.koltukNo <= 8) ? "VIP" : "Standart";
 
                 Label otobusTipi = new Label();
                 otobusTipi.Width = 74;
-                otobusTipi.Text = Bilgiler.gidisOtobusTipi == OtobusTipi.Standart ? "Standart" : "Suit";
+                otobusTipi.Text = Bilgiler.GidisOtobusTipi == OtobusTipi.Standart ? "Standart" : "Suit";
 
                 Label yemek = new Label();
                 yemek.Width = 74;

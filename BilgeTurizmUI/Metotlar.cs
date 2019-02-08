@@ -88,6 +88,11 @@ namespace BilgeTurizmUI
             return sefer.ID;
         }
 
+        /// <summary>
+        /// FlowLayoutPanel içerisindeki textbox, maskedtexbox ve comboboxlarda uygun değerlerin olup olmadığını kontrol eder.
+        /// </summary>
+        /// <param name="cnt"></param>
+        /// <returns></returns>
         public static bool BosAlanVarMi(FlowLayoutPanel cnt)
         {
             foreach (Control item in cnt.Controls)
@@ -112,6 +117,11 @@ namespace BilgeTurizmUI
             return false;
         }
 
+        /// <summary>
+        /// GroupBox içerisindeki textbox, maskedtexbox ve comboboxlarda uygun değerlerin olup olmadığını kontrol eder.
+        /// </summary>
+        /// <param name="cnt"></param>
+        /// <returns></returns>
         public static bool BosAlanVarMi(GroupBox cnt)
         {
             foreach (Control item in cnt.Controls)
@@ -134,6 +144,12 @@ namespace BilgeTurizmUI
             return false;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="form"></param>
+        /// <param name="koltuk"></param>
+        /// <param name="gidistekiKoltuklar"></param>
         public static void GidenKoltuklariSec(Form form, PictureBox koltuk, Dictionary<int, string> gidistekiKoltuklar)
         {
             int secilenKoltuk = Convert.ToInt32(koltuk.Name.Substring(10, (koltuk.Name.Length - 10)));

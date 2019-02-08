@@ -42,22 +42,22 @@ namespace BilgeTurizmUI
             {
                 //Gidiş Otobüsümüz Standart seçilmiştir.
                 gidistekiKoltuklar = new Dictionary<int, string>(); //Burada ilk defa tanımlandığından static veri henüz oluşmadı.
-                Metotlar.KoltukYukle(Bilgiler.gidisTarihi, Bilgiler.gidisSeferID, grpStandartOtobus);
+                Metotlar.KoltukYukle(Bilgiler.GidisTarihi, Bilgiler.GidisSeferID, grpStandartOtobus);
                 YolcuBilgilerineGitsinMi = false;
 
             }
             else if (gdForm.GetType() == typeof(Gidis))
             {
                 gidistekiKoltuklar = new Dictionary<int, string>();
-                Metotlar.KoltukYukle(Bilgiler.gidisTarihi, Bilgiler.gidisSeferID, grpStandartOtobus);
+                Metotlar.KoltukYukle(Bilgiler.GidisTarihi, Bilgiler.GidisSeferID, grpStandartOtobus);
                 YolcuBilgilerineGitsinMi = true;
             }
             else
             {
                 //Dönüş otobüsümüz Standart seçildi.
                 donustekiKoltuklar = new Dictionary<int, string>();
-                gidistekiKoltuklar = Bilgiler.gidisSecilenKoltuklar;
-                Metotlar.KoltukYukle(Bilgiler.donusTarihi, Bilgiler.donusSeferID, grpStandartOtobus);
+                gidistekiKoltuklar = Bilgiler.GidisSecilenKoltuklar;
+                Metotlar.KoltukYukle(Bilgiler.DonusTarihi, Bilgiler.DonusSeferID, grpStandartOtobus);
                 YolcuBilgilerineGitsinMi = true;
             }
 
@@ -73,24 +73,24 @@ namespace BilgeTurizmUI
 
             if (YolcuBilgilerineGitsinMi)
             {
-                if (Bilgiler.seyahatTipi == SeyehatTipi.GidisDonus)
+                if (Bilgiler.SeyahatTipi == SeyehatTipi.GidisDonus)
                 {
                     if (donustekiKoltuklar.Count == 0)
                     {
                         MessageBox.Show("Lütfen en az 1 koltuk seçiniz!");
                         return;
                     }
-                    else if (Bilgiler.gidisSecilenKoltuklar.Count != donustekiKoltuklar.Count)
+                    else if (Bilgiler.GidisSecilenKoltuklar.Count != donustekiKoltuklar.Count)
                     {
                         MessageBox.Show("Lütfen " + (gidistekiKoltuklar.Count - donustekiKoltuklar.Count) + " koltuk daha seçiniz!");
                         return;
                     }
 
-                    Bilgiler.donusSecilenKoltuklar = donustekiKoltuklar;
+                    Bilgiler.DonusSecilenKoltuklar = donustekiKoltuklar;
                 }
                 else
                 {
-                    Bilgiler.gidisSecilenKoltuklar = gidistekiKoltuklar;
+                    Bilgiler.GidisSecilenKoltuklar = gidistekiKoltuklar;
                 }
 
                 YolcuBilgileri yb = new YolcuBilgileri();
@@ -101,7 +101,7 @@ namespace BilgeTurizmUI
             }
             else
             {
-                Bilgiler.gidisSecilenKoltuklar = gidistekiKoltuklar;
+                Bilgiler.GidisSecilenKoltuklar = gidistekiKoltuklar;
                 if (ikinciOtobusTipi)
                 {
                     StandartOtobus birinciOtobus = new StandartOtobus(this);
@@ -123,7 +123,7 @@ namespace BilgeTurizmUI
             PictureBox koltuk = sender as PictureBox;
             if (YolcuBilgilerineGitsinMi)
             {
-                if (Bilgiler.seyahatTipi == SeyehatTipi.GidisDonus)
+                if (Bilgiler.SeyahatTipi == SeyehatTipi.GidisDonus)
                 {
                     DonusKoltuklariniYukle(koltuk);
                 }
